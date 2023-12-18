@@ -10,10 +10,11 @@ import org.junit.runner.RunWith;
                 "pretty",
                 "html:target/default-cucumber-reports.html",
                 "json:target/json-reports/cucumber.json",
-                "junit:target/xml-reports/cucumber.xml"},
+                "junit:target/xml-reports/cucumber.xml",
+                "rerun:TestOutput/failed_scenario.txt"},
         features = "src/test/resources/features",
-        glue = "stepDefinitions",
-        tags = "@US010",
+        glue = {"stepDefinitions","hooks"},
+        tags = "@US013",
         dryRun = false
 )
 public class Runner {
@@ -26,4 +27,6 @@ public class Runner {
     features ve glue parametrelerini ve diğer test e dair ayıntıları ve çeşitli plugin ekleyebiliriz
     dryRun == true => iken feature file daki test senaryolarını çalıştırmadan, eksik stepdefinitionları kontrol eder
     browser açmaz çalıştırır gibi yapar sadece kontrol yapar.
+
+    //rerun plugin i ile fail olan scenarioları burada belirtmiş olduğumuz failed_scenario.txt dosyası içinde tutabiliriz
  */

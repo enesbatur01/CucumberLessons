@@ -10,6 +10,7 @@ import org.openqa.selenium.Keys;
 import page.BlueRentalCarPage;
 import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ExcelReader;
 import utilities.ReusableMethods;
 
 import java.util.List;
@@ -67,5 +68,21 @@ public class BlueRentalStepDefinitions {
             Driver.getDriver().navigate().back();
         }
 
+    }
+
+    @And("exceldeki {string} sayfasindaki kullanici bilgileri ile login olur")
+    public void exceldekiSayfasindakiKullaniciBilgileriIleLoginOlur(String sayfaIsmi) {
+        String path="src/test/resources/adminTestData.xlsx";
+        ExcelReader excelReader = new ExcelReader(path,sayfaIsmi);
+
+        for (int i = 1; i <= excelReader.rowCount() ; i++) {
+            String email = excelReader.getCellData(i,0);
+            String password = excelReader.getCellData(i,1);
+
+            blueRentalCarPage.email.sendKeys(email);
+            blueRentalCarPage.password.sendKeys(password,Keys.ENTER);
+            ReusableMethods.bekle(2);
+            Driver.getDriver().navigate().back();
+        }
     }
 }
