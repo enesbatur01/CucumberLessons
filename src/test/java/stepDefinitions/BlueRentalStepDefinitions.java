@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -9,6 +10,9 @@ import org.openqa.selenium.Keys;
 import page.BlueRentalCarPage;
 import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ReusableMethods;
+
+import java.util.List;
 
 public class BlueRentalStepDefinitions {
     BlueRentalCarPage blueRentalCarPage = new BlueRentalCarPage();
@@ -27,13 +31,13 @@ public class BlueRentalStepDefinitions {
     @And("email ve password bilgileri ile login olur")
     public void emailVePasswordBilgileriIleLoginOlur() {
         blueRentalCarPage.email.sendKeys(ConfigReader.getProperty("blueRentalEmail"));
-        blueRentalCarPage.password.sendKeys(ConfigReader.getProperty("blueRentalPassword"),Keys.ENTER);
+        blueRentalCarPage.password.sendKeys(ConfigReader.getProperty("blueRentalPassword"), Keys.ENTER);
     }
 
     @Then("{string} ve {string} bilgileri ile manager olarak login olur")
     public void veBilgileriIleManagerOlarakLoginOlur(String email, String password) {
         blueRentalCarPage.email.sendKeys(email);
-        blueRentalCarPage.password.sendKeys(password,Keys.ENTER);
+        blueRentalCarPage.password.sendKeys(password, Keys.ENTER);
     }
 
     @And("logout yapar")
@@ -47,6 +51,21 @@ public class BlueRentalStepDefinitions {
 
         //1.Assertion
         Assert.assertFalse(blueRentalCarPage.loginVerify.getText().equals("login"));
+
+    }
+
+    @And("verilen email ve password ile login olur")
+    public void verilenEmailVePasswordIleLoginOlur(DataTable data) {
+
+        List<List<String>> emailPassword = data.asLists();
+        for (int i = 1; i < emailPassword.size(); i++) {
+            String email = emailPassword.get(i).get(0);
+            String password = emailPassword.get(i).get(1);
+            blueRentalCarPage.email.sendKeys(email);
+            blueRentalCarPage.password.sendKeys(password, Keys.ENTER);
+            ReusableMethods.bekle(1);
+            Driver.getDriver().navigate().back();
+        }
 
     }
 }

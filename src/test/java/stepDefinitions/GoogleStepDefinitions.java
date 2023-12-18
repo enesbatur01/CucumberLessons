@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -9,6 +10,8 @@ import page.GooglePage;
 import utilities.ConfigReader;
 import utilities.Driver;
 import utilities.ReusableMethods;
+
+import java.util.List;
 
 public class GoogleStepDefinitions {
     GooglePage googlePage = new GooglePage();
@@ -29,4 +32,23 @@ public class GoogleStepDefinitions {
     }
 
 
+    @When("kullanici verilen bilgiler ile arama yapar")
+    public void kullaniciVerilenBilgilerIleAramaYapar(DataTable data) {
+
+        for (int i = 0; i <data.asList().size() ; i++) {
+            googlePage.searchBox.sendKeys(data.asList().get(i),Keys.ENTER);
+            ReusableMethods.bekle(2);
+            Assert.assertTrue(Driver.getDriver().getTitle().contains(data.asList().get(i)));
+            googlePage.searchBox.clear();
+        }
+    }
+
+    @When("kullanici verilen bilgiler ile arama yapar ikinci yol")
+    public void kullaniciVerilenBilgilerIleAramaYaparIkinciYol(List<String> list) {
+        for (String w : list){
+            googlePage.searchBox.sendKeys(w+Keys.ENTER);
+            Assert.assertTrue(Driver.getDriver().getTitle().contains(w));
+            googlePage.searchBox.clear();
+        }
+    }
 }
