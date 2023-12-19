@@ -8,16 +8,16 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {
                 "pretty",
-                "html:target/default-cucumber-reports.html",
-                "json:target/json-reports/cucumber.json",
-                "junit:target/xml-reports/cucumber.xml",
+                "html:target/default-cucumber-reports1.html",
+                "json:target/json-reports/cucumber1.json",
+                "junit:target/xml-reports/cucumber1.xml",
                 "rerun:TestOutput/failed_scenario.txt"},
         features = "src/test/resources/features",
         glue = {"stepDefinitions","hooks"},
-        tags = "@US014",
+        tags = "@US001",
         dryRun = false
 )
-public class Runner {
+public class ParallelRunner1 {
 }
 /*
     Runner class body si içerisinde bir şey yazılmaz
